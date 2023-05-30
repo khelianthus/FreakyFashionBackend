@@ -48,17 +48,22 @@ namespace FreakyFashion.Controllers
             return productDto;
         }
 
+        //http://localhost:5000/products?search={search}
         [HttpGet]
-        public IEnumerable<ProductDto> GetProducts([FromQuery] string? name)
+        public IEnumerable<ProductDto> GetProducts([FromQuery] string? search)
         {
-            var products = name is null
-               ? context.Products.ToList()
-               : context.Products.Where(x => x.Name.Contains(name)).ToList();
+            var products = search is null
+                ? context.Products.ToList()
+                : context.Products.Where(x => 
+                x.Name.Contains(search) || 
+                x.Color.Contains(search) || 
+                x.Sku.Contains(search)).ToList();
 
             var productDtos = products.Select(ToProductDto);
 
             return productDtos;
         }
+
 
         private ProductDto ToProductDto(Product product)
            => new ProductDto
