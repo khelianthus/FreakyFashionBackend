@@ -1,8 +1,8 @@
 ﻿using FreakyFashion.Data;
 using FreakyFashion.Models.Domain;
 using FreakyFashion.Models.DTO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace FreakyFashion.Controllers
 {
@@ -12,9 +12,12 @@ namespace FreakyFashion.Controllers
     {
         private readonly ApplicationDbContext context;
 
-        public ProductsController(ApplicationDbContext context)
+        private readonly ILogger<ProductsController> logger;
+
+        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         [HttpGet("{id}")]
@@ -27,41 +30,34 @@ namespace FreakyFashion.Controllers
                 return NotFound();
             }
 
-            // Nedan kan ändras till ->       var productDto = ToProductDto(product);
-
-            var productDto = new ProductDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Brand = product.Brand,
-                Price = product.Price,
-                Sku = product.Sku,
-                ImageUrl = product.ImageUrl,
-                UrlSlug = product.UrlSlug,
-                Likes = product.Likes,
-                Color = product.Color,
-                Category = product.Category,
-                CreatedAt = product.CreatedAt
-            };
+            var productDto = ToProductDto(product);
 
             return productDto;
         }
 
         //http://localhost:5000/products?search={search}
+
         [HttpGet]
-        public IEnumerable<ProductDto> GetProducts([FromQuery] string? search)
+        public IActionResult GetProducts([FromQuery] string? search)
         {
             var products = search is null
                 ? context.Products.ToList()
-                : context.Products.Where(x => 
-                x.Name.Contains(search) || 
-                x.Color.Contains(search) || 
-                x.Sku.Contains(search)).ToList();
+                : context.Products.Where(x =>
+                    x.Name.Contains(search) ||
+                    x.Color.Contains(search) ||
+                    x.Sku.Contains(search)).ToList();
 
             var productDtos = products.Select(ToProductDto);
 
-            return productDtos;
+            var jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            var jsonResult = new JsonResult(productDtos, jsonOptions);
+            //Logger will show the result in the output window
+            logger.LogInformation(JsonSerializer.Serialize(jsonResult.Value));
+            return jsonResult;
         }
 
 
