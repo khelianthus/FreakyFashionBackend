@@ -38,7 +38,7 @@ namespace FreakyFashion.Controllers
         //http://localhost:5000/products?search={search}
 
         [HttpGet]
-        public IActionResult GetProducts([FromQuery] string? search)
+        public IEnumerable<ProductDto> GetProducts([FromQuery] string? search)
         {
             var products = search is null
                 ? context.Products.ToList()
@@ -49,15 +49,7 @@ namespace FreakyFashion.Controllers
 
             var productDtos = products.Select(ToProductDto);
 
-            var jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-
-            var jsonResult = new JsonResult(productDtos, jsonOptions);
-            //Logger will show the result in the output window
-            logger.LogInformation(JsonSerializer.Serialize(jsonResult.Value));
-            return jsonResult;
+            return productDtos;
         }
 
 
