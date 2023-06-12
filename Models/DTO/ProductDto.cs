@@ -1,4 +1,5 @@
 ﻿using FreakyFashion.Models.Domain;
+using System.Text.Json.Serialization;
 
 namespace FreakyFashion.Models.DTO
 {
