@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace FreakyFashion.Models.Domain
 {
@@ -36,6 +37,7 @@ namespace FreakyFashion.Models.Domain
 
         public string Color { get; set; }
 
+        [JsonIgnore]
         public Category Category { get; set; }
 
         public DateTime CreatedAt { get; set; }

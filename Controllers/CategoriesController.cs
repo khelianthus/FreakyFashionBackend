@@ -21,11 +21,29 @@ public class CategoriesController : ControllerBase
     public IEnumerable<CategoryDto> GetCategories()
     {
         var categories = context.Categories
-                .ToList();
+             .Include(x => x.Products) //Används ev. inte
+             .ToList();
 
         var categoryDtos = categories.Select(ToCategoryDto);
 
         return categoryDtos;
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<CategoryDto> GetCategory(int id)
+    {
+        var category = context.Categories
+            .Include(x => x.Products)
+            .FirstOrDefault(x => x.Id == id);
+
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        var categoryDto = ToCategoryDto(category);
+
+        return categoryDto;
     }
 
     private CategoryDto ToCategoryDto(Category category)
