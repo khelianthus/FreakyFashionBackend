@@ -1,3 +1,15 @@
+INSERT INTO Categories (
+	Name
+)
+VALUES
+('Jackor & Kappor'),
+('Tröjor'),
+('Klänningar'),
+('Toppar & T-shirts'),
+('Byxor'),
+('Jeans'),
+('Blusar & Skjortor')
+
 INSERT INTO Products (
    Name,
    Description,
@@ -27,16 +39,3 @@ VALUES
 ('Blus', 'Lorem ipsum dolor sit amet', 'Lindex', 300, 'MOB341', 'https://images.unsplash.com/photo-1549062572-544a64fb0c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80', 'vit-blus', 440, 'Vit', '2023-06-01', 7),
 ('Kappa', 'Lorem ipsum dolor sit amet', 'Secondhand', 799, 'MMM341', 'https://img.freepik.com/free-photo/portrait-beautiful-young-woman-with-mobile-phone_23-2148495518.jpg?w=740&t=st=1686162951~exp=1686163551~hmac=f2a53da8ab49ce39b774d574fc6979706b1ba4d565eb54decc69670c38991ae6', 'bla-kappa', 440, 'Blå', '2023-03-01', 1),
 ('T-shirt', 'Lorem ipsum dolor sit amet', 'Nike', 199, 'CCC321', 'https://img.freepik.com/free-photo/portrait-man-standing-isolated-white-background_23-2148043781.jpg?w=740&t=st=1686163413~exp=1686164013~hmac=db507581dd7dab94fb95cea634425a52394b11c9dddf9c4f54ef38ed3ae86ab2', 'gra-t-shirt', 210, 'Grå', '2023-04-18', 2)
-
-
-INSERT INTO Categories (
-	Name
-)
-VALUES
-('Jackor & Kappor'),
-('Tröjor'),
-('Klänningar'),
-('Toppar & T-shirts'),
-('Byxor'),
-('Jeans'),
-('Blusar & Skjortor')
