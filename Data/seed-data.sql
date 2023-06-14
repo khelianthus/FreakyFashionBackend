@@ -30,13 +30,14 @@ VALUES
 
 
 INSERT INTO Categories (
-	Name
+	Name,
+	UrlSlug
 )
 VALUES
-('Jackor & Kappor'),
-('Tröjor'),
-('Klänningar'),
-('Toppar & T-shirts'),
-('Byxor'),
-('Jeans'),
-('Blusar & Skjortor')
+('Jackor & Kappor', 'jackor-kappor'),
+('Tröjor', 'trojor'),
+('Klänningar', 'klanningar'),
+('Toppar & T-shirts', 'toppar-t-shirts'),
+('Byxor', 'byxor'),
+('Jeans', 'jeans'),
+('Blusar & Skjortor', 'blusar-skjortor')
