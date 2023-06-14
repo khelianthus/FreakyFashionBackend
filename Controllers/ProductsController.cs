@@ -40,12 +40,18 @@ namespace FreakyFashion.Controllers
         [HttpGet]
         public IEnumerable<ProductDto> GetProducts([FromQuery] string? search)
         {
+            var decodedSearchTerm = search is null
+            ? null
+            : Uri.UnescapeDataString(search);
+
+            logger.LogInformation("Search term: {SearchTerm}", search);
+
             var products = search is null
                 ? context.Products.ToList()
                 : context.Products.Where(x =>
-                    x.Name.Contains(search) ||
-                    x.Color.Contains(search) ||
-                    x.Sku.Contains(search)).ToList();
+                    x.Name.Contains(decodedSearchTerm) ||
+                    x.Color.Contains(decodedSearchTerm) ||
+                    x.Sku.Contains(decodedSearchTerm)).ToList();
 
             var productDtos = products.Select(ToProductDto);
 
