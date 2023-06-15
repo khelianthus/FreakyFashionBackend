@@ -2,6 +2,7 @@
 using FreakyFashion.Models.Domain;
 using FreakyFashion.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace FreakyFashion.Controllers
@@ -56,6 +57,26 @@ namespace FreakyFashion.Controllers
             var productDtos = products.Select(ToProductDto);
 
             return productDtos;
+        }
+
+        [HttpGet("/backoffice/productdetails/{urlSlug}")]
+        public ActionResult<ProductDto> GetProductByUrlSlug(string urlSlug)
+        {
+
+            Console.WriteLine(urlSlug);
+
+            var product = context.Products
+                .Include(x => x.Category)
+                .FirstOrDefault(x => x.UrlSlug == urlSlug);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var productDto = ToProductDto(product);
+
+            return productDto;
         }
 
 
