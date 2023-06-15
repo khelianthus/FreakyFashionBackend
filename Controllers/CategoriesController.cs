@@ -29,12 +29,12 @@ public class CategoriesController : ControllerBase
         return categoryDtos;
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<CategoryDto> GetCategory(int id)
+    [HttpGet("{urlSlug}")]
+    public ActionResult<CategoryDto> GetCategory(string urlSlug)
     {
         var category = context.Categories
             .Include(x => x.Products)
-            .FirstOrDefault(x => x.Id == id);
+            .FirstOrDefault(x => x.UrlSlug == urlSlug);
 
         if (category == null)
         {
@@ -51,6 +51,7 @@ public class CategoriesController : ControllerBase
           {
               Id = category.Id,
               Name = category.Name,
+              UrlSlug = category.UrlSlug,
               Products = category.Products
           };
 }
