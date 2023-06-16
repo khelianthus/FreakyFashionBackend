@@ -21,7 +21,7 @@ public class CategoriesController : ControllerBase
     public IEnumerable<CategoryDto> GetCategories()
     {
         var categories = context.Categories
-             .Include(x => x.Products) //Används ev. inte
+             .Include(x => x.Products) 
              .ToList();
 
         var categoryDtos = categories.Select(ToCategoryDto);

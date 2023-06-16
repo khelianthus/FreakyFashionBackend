@@ -10,8 +10,6 @@ namespace FreakyFashion.Models.Domain
     [Index(nameof(UrlSlug), IsUnique = true)]
     public class Product
     {
-        // När vi hämtar från databas så gör vi det genom context.Products
-
         public int Id { get; set; }
 
         [MaxLength(50)]

@@ -37,7 +37,6 @@ namespace FreakyFashion.Controllers
         }
 
         //http://localhost:5000/products?search={search}
-
         [HttpGet]
         public IEnumerable<ProductDto> GetProducts([FromQuery] string? search)
         {
@@ -84,13 +83,9 @@ namespace FreakyFashion.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult CreateProduct([FromBody] NewProductDto newProductDto)
         {
-
-            Console.WriteLine(newProductDto.ToString);
-
             var category = context.Categories.FirstOrDefault(c => c.Id == newProductDto.CategoryId);
             if (category == null)
             {
-                // Handle the case when the category is not found
                 return BadRequest("Invalid category ID.");
             }
 
@@ -111,13 +106,7 @@ namespace FreakyFashion.Controllers
                 .Replace(" ", "-")
                 .ToLower();
 
-            //product.UrlSlug = product.Name
-            //   .Replace("-", "")
-            //   .Replace(" ", "-")
-            //   .ToLower();
-
             product.Likes = 0;
-            //product.Category = category;
 
             context.Products.Add(product);
             context.SaveChanges();

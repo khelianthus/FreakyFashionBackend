@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FreakyFashion.Models.DTO
+﻿namespace FreakyFashion.Models.DTO
 {
     public class ApplicationUserDto
     {

@@ -1,6 +1,5 @@
 ﻿using FreakyFashion.Models.Domain;
 using FreakyFashion.Models.DTO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
