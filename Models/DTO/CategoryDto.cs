@@ -1,5 +1,4 @@
 ﻿using FreakyFashion.Models.Domain;
-using System.ComponentModel.DataAnnotations;
 
 namespace FreakyFashion.Models.DTO
 {

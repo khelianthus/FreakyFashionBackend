@@ -1,12 +1,9 @@
 ﻿using FreakyFashion.Models.Domain;
-using System.Text.Json.Serialization;
 
 namespace FreakyFashion.Models.DTO
 {
     public class ProductDto
     {
-        // När vi hämtar från databas så gör vi det genom context.Products
-
         public int Id { get; set; }
 
         public string Name { get; set; }

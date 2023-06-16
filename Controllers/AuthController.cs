@@ -1,6 +1,5 @@
 ﻿using FreakyFashion.Models.Domain;
 using FreakyFashion.Models.DTO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -35,12 +34,10 @@ namespace FreakyFashion.Controllers
 
             var token = GenerateToken(user);
 
-            //return Ok(token);
-
             var userToken = new UserTokenDto
             {
                 AuthToken = token,
-                User = MapUserToDto(user) // Konvertera ApplicationUser till ApplicationUserDto
+                User = MapUserToDto(user) 
             };
 
             return Ok(userToken);

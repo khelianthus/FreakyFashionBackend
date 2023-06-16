@@ -1,6 +1,4 @@
-﻿using FreakyFashion.Models.Domain;
-
-namespace FreakyFashion.Models.DTO
+﻿namespace FreakyFashion.Models.DTO
 {
     public class NewProductDto
     {
