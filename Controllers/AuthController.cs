@@ -35,7 +35,15 @@ namespace FreakyFashion.Controllers
 
             var token = GenerateToken(user);
 
-            return Ok(token);
+            //return Ok(token);
+
+            var userToken = new UserTokenDto
+            {
+                AuthToken = token,
+                User = MapUserToDto(user) // Konvertera ApplicationUser till ApplicationUserDto
+            };
+
+            return Ok(userToken);
         }
 
         private AuthTokenDto GenerateToken(ApplicationUser user)
@@ -71,6 +79,18 @@ namespace FreakyFashion.Controllers
 
             return authToken;
         }
+
+        private ApplicationUserDto MapUserToDto(ApplicationUser user)
+           => new ApplicationUserDto
+           {
+               FirstName = user.FirstName,
+               LastName = user.LastName,
+               Email = user.Email,
+               Address = user.Address,
+               City = user.City,
+               Region = user.Region,
+               PostalCode = user.PostalCode,
+           };
 
     }
 }
