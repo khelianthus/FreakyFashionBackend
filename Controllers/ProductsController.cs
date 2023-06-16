@@ -3,7 +3,7 @@ using FreakyFashion.Models.Domain;
 using FreakyFashion.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace FreakyFashion.Controllers
 {
@@ -79,6 +79,67 @@ namespace FreakyFashion.Controllers
             return productDto;
         }
 
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult CreateProduct([FromBody] NewProductDto newProductDto)
+        {
+
+            Console.WriteLine(newProductDto.ToString);
+
+            var category = context.Categories.FirstOrDefault(c => c.Id == newProductDto.CategoryId);
+            if (category == null)
+            {
+                // Handle the case when the category is not found
+                return BadRequest("Invalid category ID.");
+            }
+
+            var product = new Product
+            {
+                Name = newProductDto.Name,
+                Description = newProductDto.Description,
+                Brand = newProductDto.Brand,
+                Price = newProductDto.Price,
+                Sku = newProductDto.Sku,
+                ImageUrl = newProductDto.ImageUrl,
+                Color = newProductDto.Color,
+                CreatedAt = newProductDto.CreatedAt,
+                Category = category
+            };
+
+            product.UrlSlug = $"{RemoveSpecialCharacters(product.Color)}-{RemoveSpecialCharacters(product.Name)}"
+                .Replace(" ", "-")
+                .ToLower();
+
+            //product.UrlSlug = product.Name
+            //   .Replace("-", "")
+            //   .Replace(" ", "-")
+            //   .ToLower();
+
+            product.Likes = 0;
+            //product.Category = category;
+
+            context.Products.Add(product);
+            context.SaveChanges();
+
+            var productDto = ToProductDto(product);
+            
+            return Created("", productDto);
+
+        }
+
+        private string RemoveSpecialCharacters(string input)
+        {
+            string normalized = input
+                .Replace("å", "a")
+                .Replace("ä", "a")
+                .Replace("ö", "o");
+
+            string pattern = "[^a-zA-Z0-9-]";
+            string result = Regex.Replace(normalized, pattern, "");
+
+            return result;
+        }
 
         private ProductDto ToProductDto(Product product)
            => new ProductDto
