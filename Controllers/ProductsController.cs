@@ -3,6 +3,7 @@ using FreakyFashion.Models.Domain;
 using FreakyFashion.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
 
 namespace FreakyFashion.Controllers
@@ -33,7 +34,7 @@ namespace FreakyFashion.Controllers
 
             var productDto = ToProductDto(product);
 
-            return productDto;
+            return Ok(productDto);
         }
 
         //http://localhost:5000/products?search={search}
@@ -115,6 +116,81 @@ namespace FreakyFashion.Controllers
             
             return Created("", productDto);
 
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> EditProduct(int id, [FromBody] EditProductDto productDto)
+        {
+            var product = context.Products.FirstOrDefault(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (!string.IsNullOrEmpty(productDto.Name))
+            {
+                product.Name = productDto.Name;
+            }
+
+            if (!string.IsNullOrEmpty(productDto.Description))
+            {
+                product.Description = productDto.Description;
+            }
+
+            if (!string.IsNullOrEmpty(productDto.Brand))
+            {
+                product.Brand = productDto.Brand;
+            }
+
+            if (productDto.Price.HasValue)
+            {
+                product.Price = productDto.Price.Value;
+            }
+
+            if (!string.IsNullOrEmpty(productDto.Sku))
+            {
+                product.Sku = productDto.Sku;   
+            }
+
+            if (productDto.ImageUrl != null)
+            {
+                product.ImageUrl = productDto.ImageUrl;
+            }
+
+            if (!string.IsNullOrEmpty(productDto.Color))
+            {
+                product.Color = productDto.Color;
+            }
+
+            if (productDto.CategoryId.HasValue)
+            {
+                var category = context.Categories.FirstOrDefault(c => c.Id == productDto.CategoryId.Value);
+                if (category != null)
+                {
+                    product.Category = category;
+                }
+            }
+
+            product.UrlSlug = $"{RemoveSpecialCharacters(product.Color)}-{RemoveSpecialCharacters(product.Name)}"
+                .Replace(" ", "-")
+                .ToLower();
+
+            context.Update(product);
+            await context.SaveChangesAsync();
+
+            return Ok(product);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = context.Products.FirstOrDefault(p => p.Id == id);
+
+            context.Products.Remove(product);
+            context.SaveChanges();
+
+            return Ok(product);
         }
 
         private string RemoveSpecialCharacters(string input)
