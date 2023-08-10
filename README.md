@@ -1,5 +1,20 @@
 # FreakyFashion
 
-1. Kör "update-database" i Package Manager Console för att få en lokal databas på plats
+This is the backend for the e-commerce website FreakyFashion. 
 
-2. Mata in data från seed-data.sql.
+## Preparations
+
+1. Run "update-database" in Package Manager Console to get a local database
+
+2. Run the data in seed-data.sql
+
+3. Run program at the same time as the frontend.
+
+## The team
+
+This is a first year project done by:
+
+- Fredrik - https://github.com/Fredde88
+- Linnea - https://github.com/linneaand
+- Eddie - https://github.com/eddish16
+- Karoline (me!) - https://github.com/khelianthus
